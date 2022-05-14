@@ -10,6 +10,9 @@ public class Movement : MonoBehaviour
 
     [SerializeField]float thrustPower;
     [SerializeField]float thrustRotationPower;
+    [SerializeField]AudioClip kucingEngine;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -44,7 +47,7 @@ public class Movement : MonoBehaviour
             rb.AddRelativeForce(Vector3.up * thrustPower * Time.deltaTime);
             if(!sfx.isPlaying)
             {
-                sfx.Play();
+                sfx.PlayOneShot(kucingEngine);
             }
             
         }
@@ -56,9 +59,9 @@ public class Movement : MonoBehaviour
 
     void RocketRotation(float rotationVar)
     {
-        // rb.freezeRotation = true;
+        rb.freezeRotation = true;
         transform.Rotate(Vector3.forward * rotationVar * Time.deltaTime);
-        // rb.freezeRotation = false;
+        rb.freezeRotation = false;
     }
 
 }

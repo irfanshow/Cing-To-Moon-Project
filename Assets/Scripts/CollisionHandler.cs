@@ -7,9 +7,25 @@ public class CollisionHandler : MonoBehaviour
 {
     
     [SerializeField]float delayTime ;
+    [SerializeField]AudioClip crashSFX;
+    [SerializeField]AudioClip finishSFX;
+
+    bool isTransitioning = false ;
+
+    AudioSource sfx;
+
+    void Start()
+    {
+        
+        sfx = GetComponent<AudioSource>();
+    }
+
 
     void OnCollisionEnter(Collision other)
     {
+
+        if(isTransitioning){ return;}
+
         switch(other.gameObject.tag)
         {
             case "Start":
@@ -17,12 +33,14 @@ public class CollisionHandler : MonoBehaviour
 
             case "Finish":
                 DelayNextLevel();
+                
 
                 break;
 
             default:
                 Debug.Log("You DEAD!");
                 DelayRestartLevel();
+                
                 
                 break;
 
@@ -31,6 +49,9 @@ public class CollisionHandler : MonoBehaviour
 
     void DelayRestartLevel()
     {
+        isTransitioning = true;
+        sfx.Stop();
+        sfx.PlayOneShot(crashSFX);
         GetComponent<Movement>().enabled = false;
         Invoke("RestartLevel",delayTime);
 
@@ -38,6 +59,9 @@ public class CollisionHandler : MonoBehaviour
 
         void DelayNextLevel()
     {
+        isTransitioning = true;
+        sfx.Stop();
+        sfx.PlayOneShot(finishSFX);
         GetComponent<Movement>().enabled = false;
         Invoke("LoadNextLevel",delayTime);
 
