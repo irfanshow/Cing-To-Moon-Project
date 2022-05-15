@@ -11,6 +11,7 @@ public class Movement : MonoBehaviour
     [SerializeField]float thrustPower;
     [SerializeField]float thrustRotationPower;
     [SerializeField]AudioClip kucingEngine;
+    [SerializeField]ParticleSystem kucingThrustParticle;
 
 
     // Start is called before the first frame update
@@ -29,12 +30,12 @@ public class Movement : MonoBehaviour
 
     void RotationControl()
     {
-        if(Input.GetKey(KeyCode.D))
+        if(Input.GetKey(KeyCode.W))
         {
             RocketRotation(-thrustRotationPower);
         }
 
-        else if(Input.GetKey(KeyCode.A))
+        else if(Input.GetKey(KeyCode.S))
         {
             RocketRotation(thrustRotationPower);
         }
@@ -49,11 +50,18 @@ public class Movement : MonoBehaviour
             {
                 sfx.PlayOneShot(kucingEngine);
             }
+
+             if(!kucingThrustParticle.isPlaying)
+            {
+                kucingThrustParticle.Play();
+            }
+            
             
         }
 
         else{
             sfx.Stop();
+            kucingThrustParticle.Stop();
         }
     }
 

@@ -36,7 +36,6 @@ public class CollisionHandler : MonoBehaviour
 
             case "Finish":
                 DelayNextLevel();
-                
 
                 break;
 
